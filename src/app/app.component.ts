@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LocalStorageService } from './services/local-storage.service';
 
@@ -11,6 +11,11 @@ export class AppComponent {
   title = 'omniplex-test';
   loginData: any;
   isLoggedIn: boolean;
+
+  // @HostListener('document:mousemove', ['$event'])
+  // onMouseMove(e: Event) {
+  //   console.log(e);
+  // }
 
   constructor(private localStorage: LocalStorageService) {
     this.loginData = this.localStorage.getData();
