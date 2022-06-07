@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { LocalStorageService } from './services/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class AppComponent {
   title = 'omniplex-test';
+  loginData: any;
+  isLoggedIn: boolean;
+
+  constructor(private localStorage: LocalStorageService) {
+    this.loginData = this.localStorage.getData();
+    this.isLoggedIn = this.loginData?.length;
+  }
 
   ngOnInit() {
+
   }
 }

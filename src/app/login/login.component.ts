@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { LocalStorageService } from '../services/local-storage.service';
 import { PasswordValidator } from './Validators/Password';
 
 @Component({
@@ -9,7 +10,7 @@ import { PasswordValidator } from './Validators/Password';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private localStorage: LocalStorageService) {
   }
 
   loginForm: any = FormGroup;
@@ -27,9 +28,12 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.submitted) {
-      alert("Great!!");
+      this.localStorage.setData({
+        name: this.f.name.value,
+        password: this.f.password.value
+      });
+      window.location.reload();
     }
-
   }
 
   ngOnInit(): void {

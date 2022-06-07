@@ -4,11 +4,12 @@
   "version": "1.0",
   "author": "Adrian Cebanica",
   "manifest_version": 3,
-//  "permissions": [
-//    "activeTab",
-//    "scripting",
-//    "webNavigation"
-//  ],
+  "permissions": [
+    //  "activeTab",
+    //  "scripting",
+    //  "webNavigation",
+    "storage"
+  ],
   "action": {
     "default_icon": {
       "32": "assets/logo.png"

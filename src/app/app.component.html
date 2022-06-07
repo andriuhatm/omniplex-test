@@ -1,11 +1,14 @@
-<section class="h-screen">
-  <div class="px-6 h-full text-gray-800">
-    <div
-      class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
-    >
-      <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12">
-        <app-login></app-login>
+<div *ngIf="isLoggedIn">
+  <app-welcome></app-welcome>
+</div>
+<div *ngIf="!isLoggedIn">
+  <section class="h-screen">
+    <div class="px-6 h-full text-gray-800">
+      <div class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
+        <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12">
+          <app-login></app-login>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
