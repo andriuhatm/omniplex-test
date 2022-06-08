@@ -15,31 +15,48 @@ export class IdleModalComponent implements OnInit {
       </div>
   </div>`;
 
-  constructor() { }
-
   ngOnInit() {
     const $this = this;
 
     const trackMouseMovement = (html: string, redirect_url: string) => {
       let t: any;
       const IDLE_TIME_LIMIT = 5000; // 5 sec
-      document.body.innerHTML += html; // inject modal html
+
       let modalEl = document.getElementById('idle-modal');
+      if (!modalEl) {
+        document.body.innerHTML += html; // inject modal html
+      }
+      modalEl = document.getElementById('idle-modal');
 
       let btnNo = document.getElementById('idle-modal-button-no');
       btnNo?.addEventListener("click", () => {
         hideModal();
-      });
+      }, { once: true });
 
       let btnYes = document.getElementById('idle-modal-button-yes');
       btnYes?.addEventListener("click", () => {
         hideModal();
         window.open(redirect_url, '_blank');
-      });
+      }, { once: true });
 
       const showModal = () => {
-        if (modalEl && (!modalEl.style.display || modalEl.style.display === "none")) {
-          modalEl.style.display = "block";
+        if (modalEl) {
+          const isModalExpired = modalEl.dataset['expired'] === 'true';
+          if (isModalExpired) {
+            window.removeEventListener('load', resetTimer);
+            let events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+            events.forEach(function (name) {
+              document.removeEventListener(name, resetTimer);
+            });
+
+            clearTimeout(t); // delete timer
+
+            return;
+          } else {
+            if (!modalEl.style.display || modalEl.style.display === "none") {
+              modalEl.style.display = "block";
+            }
+          }
         }
       }
 
@@ -50,19 +67,15 @@ export class IdleModalComponent implements OnInit {
       }
 
       const resetTimer = () => {
-        window.clearTimeout(t);
-        t = window.setTimeout(showModal, IDLE_TIME_LIMIT);
+        clearTimeout(t);
+        t = setTimeout(showModal, IDLE_TIME_LIMIT);
       }
 
-      // loadMouseTrackingEvent(true);
-      window.onload = resetTimer;
-      window.onmousemove = resetTimer;
-      window.onmousedown = resetTimer;  // catches touchscreen presses    
-      window.ontouchstart = resetTimer; // catches touchscreen swipes      
-      window.ontouchmove = resetTimer;  // required by some devices 
-      window.onclick = resetTimer;      // catches touchpad clicks as well
-      window.onkeydown = resetTimer;
-      window.addEventListener('scroll', resetTimer, true);
+      window.addEventListener('load', resetTimer);
+      let events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+      events.forEach(function (name) {
+        document.addEventListener(name, resetTimer);
+      });
     }
 
     chrome.tabs.query(
@@ -84,16 +97,18 @@ export class IdleModalComponent implements OnInit {
         }
         #idle-modal h1 {
           font-weight: bold;
-          color: black;
-          font-size: 1.25rem;
+          color: black !important;
+          font-size: 1.25rem !important;
           line-height: 1.75rem;
+          padding: 0;
+          margin: 0px 0 10px;
         }
         #idle-modal-buttons {
           text-align:center;
           margin-top: 5px;
         }
         #idle-modal-buttons button {
-          background-color: rgb(234 88 12);
+          background-color: rgb(234 88 12) !important;
           border-radius: 0.25rem;
           color: white;
           padding-top: 0.75rem;

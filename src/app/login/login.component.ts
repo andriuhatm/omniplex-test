@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ChromeScriptService } from '../services/chrome-script.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { PasswordValidator } from './Validators/Password';
 
@@ -10,7 +11,10 @@ import { PasswordValidator } from './Validators/Password';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private localStorage: LocalStorageService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private localStorage: LocalStorageService,
+    private chromeScript: ChromeScriptService) {
   }
 
   loginForm: any = FormGroup;
@@ -31,6 +35,12 @@ export class LoginComponent implements OnInit {
       this.localStorage.setData({
         name: this.f.name.value,
         password: this.f.password.value
+      });
+      this.chromeScript.runScript(() => {
+        let modalEl = document.getElementById('idle-modal');
+        if (modalEl) {
+          modalEl.dataset['expired'] = 'false';
+        }
       });
       window.location.reload();
     }

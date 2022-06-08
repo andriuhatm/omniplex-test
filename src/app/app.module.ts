@@ -4,21 +4,19 @@ import { AppComponent } from './app.component';
 import { CommonModule } from "@angular/common";
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { WelcomeComponent } from './welcome/welcome.component';
-import { IdleModalComponent } from './welcome/idle-modal/idle-modal.component';
+import { WelcomeModule } from './welcome/welcome.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    WelcomeComponent,
-    IdleModalComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    WelcomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
