@@ -12,17 +12,8 @@ export class AppComponent {
   loginData: any;
   isLoggedIn: boolean;
 
-  // @HostListener('document:mousemove', ['$event'])
-  // onMouseMove(e: Event) {
-  //   console.log(e);
-  // }
-
   constructor(private localStorage: LocalStorageService) {
     this.loginData = this.localStorage.getData();
     this.isLoggedIn = this.loginData?.length;
-  }
-
-  ngOnInit() {
-
   }
 }

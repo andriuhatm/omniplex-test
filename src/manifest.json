@@ -10,12 +10,6 @@
     "webNavigation",
     "tabs"
   ],
-  "host_permissions": [
-    "*://*/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "icons": {
     "32": "assets/logo.png"
   },
